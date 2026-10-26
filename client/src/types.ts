@@ -1,0 +1,15 @@
+export const TASK_TAGS = ["Urgent", "Important"];
+
+// What the user types into the form
+export interface TaskInput {
+  title: string;
+  description: string;
+  tag: string;
+}
+
+// A task that came back from the server (it now has an_id)
+export interface Task extends TaskInput {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+}

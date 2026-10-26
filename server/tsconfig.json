@@ -1,0 +1,16 @@
+{
+  // Typescript settings for server
+  // npm run build: compiles src/**/*.ts -> dist/**/*.js (plain javascript that node runs)
+  "compilerOptions": {
+    "target": "ES2024", // Modern javascript output (Node 22+ understands it)
+    "module": "nodenext", //follow Node's own module rule
+    "moduleResolution": "nodenext",
+    "rootDir": "./src", // where our typescript lives
+    "outDir": "./dist", // catch as many mistakes as possible
+    "types": ["node"],
+    "strict": true, // catch as many mistakes as possible
+    "esModuleInterop": true, // lets us write: import express from "express" and others
+    "skipLibCheck": true // dont type-check code inside node_modules
+  },
+  "include": ["src"]
+}

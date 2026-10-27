@@ -5,7 +5,7 @@ import type { Task, TaskInput } from "./types";
 
 // pages never write URLs themselves. They call these functions
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "/api",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // post /api/tasks -> create a task
@@ -16,7 +16,7 @@ export const createTask = async (task: TaskInput): Promise<Task> => {
 
 // GET /api/tasks/allTask -> all task
 export const getTasks = async (): Promise<Task[]> => {
-  const response = await api.get("/task/allTask");
+  const response = await api.get("/tasks/allTask");
   return response.data.tasks;
 };
 
@@ -31,7 +31,7 @@ export const updateTask = async (
   id: string,
   task: TaskInput,
 ): Promise<TaskInput> => {
-  const response = await api.patch(`task/${id}`, task);
+  const response = await api.patch(`tasks/${id}`, task);
   return response.data.task;
 };
 
@@ -41,7 +41,7 @@ export const deleteTask = async (id: string): Promise<void> => {
 };
 
 // Turns any error into a message we can show users
-// Our server always sends errors as {message: "..."}.
+// our server always sends errors as {message: "..."}
 export const getErrorMessage = (error: unknown): string => {
   if (axios.isAxiosError(error)) {
     return (

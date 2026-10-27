@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import type { Task } from "../types";
-import { getErrorMessage, getTasks } from "../api";
+import { deleteTask, getErrorMessage, getTasks } from "../api";
 
 const MyTask = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -23,6 +23,23 @@ const MyTask = () => {
 
     fetchTasks();
   }, []);
+
+  // Step 2: delete one task
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this task")) {
+      return;
+    }
+
+    await deleteTask(id);
+
+    // keep every task EXCEPT the one (no need to reload from the server)
+
+    setTasks(
+      tasks.filter((task) => {
+        return task._id !== id;
+      }),
+    );
+  };
   return (
     <main className="max-w-360 mx-auto px-5 md:px-42.5 py-8 md:py-13.25 flex flex-col items-start gap-7.25">
       <div className="flex flex-col md:flex-row items-start md:items-center w-full justify-between gap-4">
@@ -49,13 +66,15 @@ const MyTask = () => {
                 className="pb-5 flex flex-col md:flex-row  md:items-end justify-between 
           w-full gap-4 border-b-[0.5px] border-b-[#b8b6b6]"
               >
-                <p className="font-normal ytext-xl md:text-[24px] text-[#f38383]">
+                <p
+                  className={`font-normal ytext-xl md:text-[24px] ${task.tag === "Urgent" ? "text-[#f38383]" : "text-[#73C3A6]"}`}
+                >
                   {task.tag}
                 </p>
 
                 <div className="flex flex-wrap gap-3">
                   <Link
-                    to="/edit"
+                    to={`/edit/${task._id}`}
                     className="w-31.5 h-12.5 flex justify-center items-center gap-2.5 bg-[#974fd0] rounded-lg"
                   >
                     <FaRegEdit className="text-[24px] font-medium text-[#faf9fb]" />
@@ -64,7 +83,12 @@ const MyTask = () => {
                     </span>
                   </Link>
 
-                  <button className="border border-[#974fd0] w-37.75 h-12.5 flex justify-center items-center gap-2.5 rounded-lg">
+                  <button
+                    onClick={() => {
+                      return handleDelete(task._id);
+                    }}
+                    className="border border-[#974fd0] w-37.75 h-12.5 flex justify-center items-center gap-2.5 rounded-lg"
+                  >
                     <FaRegTrashCan className="text-[24px] font-medium text-[#974fd0]" />
                     <span className="text-[24px] font-medium text-[#974fd0]">
                       Delete

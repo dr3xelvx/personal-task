@@ -17,7 +17,7 @@ function App() {
             <Route path="/" element={<CoverPage />} />
             <Route path="/tasks" element={<MyTask />} />
             <Route path="/new" element={<NewTask />} />
-            <Route path="/edit" element={<EditTask />} />
+            <Route path="/edit/:id" element={<EditTask />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
